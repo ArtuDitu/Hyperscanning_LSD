@@ -41,18 +41,20 @@ EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Artur 2
             EEG = eeg_sub2;
         end
 
-        
+        EEG.setname
+
+    EEG = pop_chanedit(EEG, 'lookup',fullfile(eeglabpath,'plugins/dipfit/standard_BESA/standard-10-5-cap385.elp'));
         
         % HIGH- AND LOW-PASS FILTERING
         EEG = pop_eegfiltnew(EEG, high_pass, []); % 0.1 is the lower edge
         EEG = pop_eegfiltnew(EEG, [], low_pass); % 100 is the upper edge
         % remove line noise with zapline
-        EEG = clean_data_with_zapline_plus_eeglab_wrapper(EEG);x
-        
+        EEG = clean_data_with_zapline_plus_eeglab_wrapper(EEG);
         
 
- 
-        full_chanlocs = EEG.chanlocs;
+    full_chanlocs = EEG.chanlocs;
+
+
         
         count = 1;
         
@@ -77,7 +79,7 @@ EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Artur 2
         % high pass 2 Hz for data used for ICA calculations
         eeg_tmp = pop_eegfiltnew(EEG, 2, []);   % highpass  2 Hz to not include slow drifts
         % create amica folder
-        cd D:\Dropbox\Projects\Emotional_Sharing_EEG\EEG_Data\Preprocessed_November
+        cd D:\Dropbox\Projects\Hyperscanning_Maastricht\amicaFolder
         mkdir(sprintf('ICA_amica_%s_%d',EEG.setname, sub))
         outDir = what(sprintf('ICA_amica_%s_%d',EEG.setname,sub));
         %run ICA
