@@ -47,27 +47,12 @@ EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Artur 2
         EEG = pop_eegfiltnew(EEG, high_pass, []); % 0.1 is the lower edge
         EEG = pop_eegfiltnew(EEG, [], low_pass); % 100 is the upper edge
         % remove line noise with zapline
-        d_tmp = permute(EEG.data, [2,1]);
-        d_tmp(isnan(d_tmp))=0;
-        d_tmp = nt_zapline(d_tmp, power_line/srate);
-        EEG.data = permute(d_tmp,[2,1]);
+        EEG = clean_data_with_zapline_plus_eeglab_wrapper(EEG);x
+        
+        
 
-        
-        
-        %
-        
-        for channel = 1:24
-            tmp = strsplit(EEG.chanlocs(channel).labels,'_');
-            EEG.chanlocs(channel).labels = char(tmp(end));
-        end
-        
+ 
         full_chanlocs = EEG.chanlocs;
-        % plot continuous data
-        %eegplot(eeg_sub1.data,'srate',eeg_sub1.srate,'eloc_file',eeg_sub1.chanlocs)
-        
-        % automatic channel rejection
-        %[EEG indelec] = pop_rejchan(EEG, 'elec',[1:24] ,'threshold',3,'norm','on','measure','kurt');
-        % save labels of removed channels
         
         count = 1;
         
