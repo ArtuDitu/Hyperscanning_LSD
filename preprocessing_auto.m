@@ -1,28 +1,29 @@
 %% Load data
-cd D:\Dropbox\Projects\Hyperscanning_Maastricht\
+cd /Users/artur/Dropbox/Projects/Hyperscanning_Maastricht
 addpath(genpath('D:\Dropbox\Projects\Hyperscanning_Maastricht'))
 eeglabpath = fileparts(which('eeglab.m'));
 % load eeglab
 eeglab;
 
 % load data
-EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Hyperscanning_LSD/Artur 2/', 'C1_A1_AFF.vhdr')
+EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Artur 2/', 'C1_A1_AFF.vhdr')
     
     
     
     
     eeg_sub1 = pop_select(EEG, 'channel', {EEG.chanlocs(1:35).labels});
-    eeg_sub2 = pop_select(exported_EEG, 'channel', {EEG.chanlocs(1:35).labels});
+    eeg_sub2 = pop_select(EEG, 'channel', {EEG.chanlocs(36:70).labels});
+    eeg_sub2.chanlocs = eeg_sub1.chanlocs;    
     
     % add events to both datasets (300 events separated by 1 second
     eeg_sub1_chanlocs = eeg_sub1.chanlocs;
-    eeg_sub1.data(25,[1000:500:500*floor(size(eeg_sub1.data,2)/500)]) = 1; % simulating a stimulus onset every second
-    eeg_sub1 = pop_chanevent(eeg_sub1, 25,'edge','leading','edgelen',0,'duration','on','nbtype',1);
+    eeg_sub1.data(36,[1000:500:500*floor(size(eeg_sub1.data,2)/500)]) = 1; % simulating a stimulus onset every second
+    eeg_sub1 = pop_chanevent(eeg_sub1, 36,'edge','leading','edgelen',0,'duration','on','nbtype',1);
     eeg_sub1.chanlocs = eeg_sub1_chanlocs;
     
     eeg_sub2_chanlocs = eeg_sub2.chanlocs;
-    eeg_sub2.data(25,[1000:500:500*floor(size(eeg_sub1.data,2)/500)]) = 1; % simulating a stimulus onset every second
-    eeg_sub2 = pop_chanevent(eeg_sub2, 25,'edge','leading','edgelen',0,'duration','on','nbtype',1);
+    eeg_sub2.data(36,[1000:500:500*floor(size(eeg_sub1.data,2)/500)]) = 1; % simulating a stimulus onset every second
+    eeg_sub2 = pop_chanevent(eeg_sub2, 36,'edge','leading','edgelen',0,'duration','on','nbtype',1);
     eeg_sub2.chanlocs = eeg_sub2_chanlocs;
     
     % parameters
@@ -39,8 +40,7 @@ EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Hypersc
         if sub == 2
             EEG = eeg_sub2;
         end
-        %file name
-        %EEG.filename = EEG.filename(1:end-4);
+
         
         
         % HIGH- AND LOW-PASS FILTERING
@@ -51,9 +51,7 @@ EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Hypersc
         d_tmp(isnan(d_tmp))=0;
         d_tmp = nt_zapline(d_tmp, power_line/srate);
         EEG.data = permute(d_tmp,[2,1]);
-        
-        EEG.setname = EEG.filepath(69:end);
-        EEG.setname = EEG.setname(1:end-9);
+
         
         
         %
@@ -74,7 +72,7 @@ EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Hypersc
         count = 1;
         
         for event_id = 1:numel(EEG.event)
-            if isequal(EEG.event(event_id).type, 'chan25')
+            if isequal(EEG.event(event_id).type, 'chan36')
                 EEG.event(event_id).epoch_id = count;
                 count = count + 1;
             else
