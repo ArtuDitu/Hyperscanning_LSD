@@ -1,20 +1,18 @@
 %% Load data
-cd D:\Dropbox\Projects\Hyperscanning_LSD
-addpath(genpath('D:\Dropbox\Projects\Hyperscanning_LSD'))
+cd D:\Dropbox\Projects\Hyperscanning_Maastricht\
+addpath(genpath('D:\Dropbox\Projects\Hyperscanning_Maastricht'))
 eeglabpath = fileparts(which('eeglab.m'));
 % load eeglab
 eeglab;
 
 % load data
-EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_LSD/Artur 2/', 'C1_A1_AFF.vhdr')
+EEG = pop_loadbv('/Users/artur/Dropbox/Projects/Hyperscanning_Maastricht/Hyperscanning_LSD/Artur 2/', 'C1_A1_AFF.vhdr')
     
     
     
     
     eeg_sub1 = pop_select(EEG, 'channel', {EEG.chanlocs(1:35).labels});
-    eeg_sub2 = pop_select(exported_EEG, 'channel', {exported_EEG.chanlocs(25:48).labels});
-    
-    eeg_sub2.subject = exported_EEG.chanlocs(25).labels(1:20);
+    eeg_sub2 = pop_select(exported_EEG, 'channel', {EEG.chanlocs(1:35).labels});
     
     % add events to both datasets (300 events separated by 1 second
     eeg_sub1_chanlocs = eeg_sub1.chanlocs;
